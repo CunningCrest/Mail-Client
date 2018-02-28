@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+}
+div.header {
+    background-color: #008080;
+    height: 300px;
+    padding: 20px;
+    /* text-align: center; */
+}
+
+/* Style the top navigation bar */
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.user_name {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+h1.title {
+  font-size: 7vw;
+  /* height: 300px; */
+}
+
+.special {
+  display: inline;
+}
+
+.letter {
+  /* margin: auto; */
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  /* border: 3px solid #73AD21;
+  padding: 10px; */
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.textMess {
+  height: 90px;
+}
+
+.message {
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+.view {
+  padding-left: 30px;
+}
+
+.fullLetter {
+  /* margin: auto; */
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  /* border: 3px solid #73AD21;
+  padding: 10px; */
+}
+
+.input_block {
+  text-align: center;
+}
+
+.header_input {
+  border: solid 1px gray;
+  border-radius: 6px;
+  height: 40px;
+  width: 300px;
+}

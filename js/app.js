@@ -42,7 +42,7 @@ app.get('/api/inbox/:topic', function (req, res) {
 	});
 });
 
-var server = app.listen(3000, function () {
+var server = app.listen(3002, function () {
 
   var host = server.address().address;
   var port = server.address().port;
