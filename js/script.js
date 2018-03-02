@@ -4,7 +4,7 @@ angular.module("MailApp", ["ui.router"])
   .controller("MainMailController", ["$scope", "todoMessageService", function($scope, todoMessageService) {
     this.list = todoMessageService.initializeFunc();
     this.text = "";
-    this.tempIndex ;
+    this.tempIndex;
     this.addItem = function(newAuthor, newTopic, newContent, newList) {
       todoMessageService.addItem(newAuthor, newTopic, newContent, newList);
     }
@@ -29,33 +29,33 @@ angular.module("MailApp", ["ui.router"])
       } else {
         var model = {
           items: [{
-            author: "CodeAcademy@gmail.com",
-            topic: "Machine learning demystified",
-            content: "According to our watches, it’s been 18 hours since the last machine learning news article surfaced on Google News. Do a quick search of the buzzword, and you’ll find a slew of Matrix-inspired green numerals running over a filtered image of a computer or brain.",
-            date: new Date(),
-            id: 0
-          },
-          {
-            author: "LeraEventSpace@gmail.com",
-            topic: "Встреча сообщества MskDotNet ",
-            content: "Хотите всю неделю посвятить .NET событиям? Коллеги из MskDotNet проводят MskDotNet Meetup с интересными докладами. Встреча состоится в Москве.",
-            date: new Date(),
-            id: 1
-          },
-          {
-            author: "Alex745@gmail.com",
-            topic: ".NET Meetup #25",
-            content: "Времена CRUD приложений прошли безвозвратно. Да, это всё ещё применимые технологии, тем не менее, с каждым днём они устаревают всё больше и больше. Попробуйте современные подходы на воркшопе вместе с Dino Esposito. Вы спроектируете и создадите приложение на event sourcing + CQRS.",
-            date: new Date(),
-            id: 2
-          },
-          {
-            author: "Oleg100@gmail.com",
-            topic: ".NET Meetup #24",
-            content: "19:00 Andrei Amialchenia – Создание чат-ботов на платформе Microsoft Bot Framework. 20:00 Anatoly Popov – Использование .NET Core и Linux в реальных системах",
-            date: new Date(),
-            id: 3
-          },
+              author: "CodeAcademy@gmail.com",
+              topic: "Machine learning demystified",
+              content: "According to our watches, it’s been 18 hours since the last machine learning news article surfaced on Google News. Do a quick search of the buzzword, and you’ll find a slew of Matrix-inspired green numerals running over a filtered image of a computer or brain.",
+              date: new Date(),
+              id: 0
+            },
+            {
+              author: "LeraEventSpace@gmail.com",
+              topic: "Встреча сообщества MskDotNet ",
+              content: "Хотите всю неделю посвятить .NET событиям? Коллеги из MskDotNet проводят MskDotNet Meetup с интересными докладами. Встреча состоится в Москве.",
+              date: new Date(),
+              id: 1
+            },
+            {
+              author: "Alex745@gmail.com",
+              topic: ".NET Meetup #25",
+              content: "Времена CRUD приложений прошли безвозвратно. Да, это всё ещё применимые технологии, тем не менее, с каждым днём они устаревают всё больше и больше. Попробуйте современные подходы на воркшопе вместе с Dino Esposito. Вы спроектируете и создадите приложение на event sourcing + CQRS.",
+              date: new Date(),
+              id: 2
+            },
+            {
+              author: "Oleg100@gmail.com",
+              topic: ".NET Meetup #24",
+              content: "19:00 Andrei Amialchenia – Создание чат-ботов на платформе Microsoft Bot Framework. 20:00 Anatoly Popov – Использование .NET Core и Linux в реальных системах",
+              date: new Date(),
+              id: 3
+            },
           ]
         };
         localStorage.setItem("keyMail", JSON.stringify(model));
@@ -87,10 +87,14 @@ angular.module("MailApp", ["ui.router"])
       return tempList;
     };
     this.getSearchIndex = function(mailList, searchText) {
-      for (var i = 0; i < mailList.items.length; i++ ) {
-        if (searchText == mailList.items[i].author) {
-          return i;
+      if (searchText != "") {
+        for (var i = 0; i < mailList.items.length; i++) {
+          if (searchText == mailList.items[i].topic) {
+            return i;
+          }
         }
+      } else {
+
       }
     };
   })
@@ -117,6 +121,10 @@ angular.module("MailApp", ["ui.router"])
       resolve: {
         mail: function(todoMessageService) {
           return todoMessageService.getMail(tempList);
+        },
+
+        list: function(todoMessageService) {
+          return todoMessageService.initializeFunc();
         }
       }
     };
@@ -189,7 +197,7 @@ angular.module("MailApp", ["ui.router"])
   })
   .component('mailList', {
     bindings: {
-      list:'<',
+      list: '<',
       removeItem: '&',
       getCurrent: '&'
     },
@@ -214,7 +222,7 @@ angular.module("MailApp", ["ui.router"])
         <span class="w3-bar-item w3-white w3-button w3-xlarge w3-right" ng-click="$ctrl.delete({newList:$ctrl.list, deleteIndex:$ctrl.index})"><img src="icons/images.jpeg" class="w3-bar-item w3-circle w3-hide-small" style="width:60px"></img></span>
         <img src="icons/img_avatar2.png" class="w3-bar-item  w3-circle w3-hide-small" style="width:85px"></img>
         <div class="w3-bar-item">
-          <a ui-sref-active="active" ui-sref="full()">
+          <a ui-sref-active="active" ui-sref="full">
             <span class="w3-xlarge">{{$ctrl.item.author}}</span><br>
             <span class="w3-large">{{$ctrl.item.topic}}</span><br>
             <span class="">{{$ctrl.item.date | date:"medium"}}</span><br>
@@ -228,12 +236,22 @@ angular.module("MailApp", ["ui.router"])
       list: '<',
       mail: '<'
     },
-    controller: function() {},
+    controller: function() {
+      this.deleteCurrentMail = function() {
+        var removeIndex = this.list.items.indexOf(this.mail);
+        this.list.items.splice(removeIndex, 1);
+        model = this.list;
+        localStorage.setItem("keyMail", JSON.stringify(model));
+      };
+    },
     template: `
       <div class="w3-card-4 fullLetter" >
         <div class="w3-container">
           <div id="Borge" class="w3-container person">
             <br>
+            <a ui-sref-active="active" ui-sref="home">
+              <span class="w3-bar-item w3-white w3-button w3-xlarge w3-right" ng-click="$ctrl.deleteCurrentMail()"><img src="icons/images.jpeg" class="w3-bar-item w3-circle w3-hide-small" style="width:60px"></img></span>
+            </a>
             <img class="w3-round  w3-animate-top" src="icons/avatar.png" style="width:20%;">
             <h5 class="w3-opacity">Topic: {{$ctrl.mail.topic}}</h5>
             <h4><i class="fa fa-clock-o"></i> From {{$ctrl.mail.author}}, {{$ctrl.mail.date | date:"medium"}}</h4>
